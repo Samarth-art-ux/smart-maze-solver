@@ -1,0 +1,161 @@
+:root {
+    --bg-color: #0f172a;
+    --grid-bg: #1e293b;
+    --primary: #3b82f6;
+    --secondary: #64748b;
+    --accent: #8b5cf6;
+    --danger: #ef4444;
+    --text: #f8fafc;
+    --wall: #334155;
+    --visited: #0ea5e9;
+    --path: #facc15;
+    --start: #22c55e;
+    --end: #f43f5e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    color: var(--secondary);
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.btn.primary { background-color: var(--primary); color: white; }
+.btn.secondary { background-color: var(--grid-bg); color: var(--text); border: 1px solid var(--secondary); }
+.btn.danger { background-color: var(--danger); color: white; }
+
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--secondary);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.box.start { background-color: var(--start); }
+.box.end { background-color: var(--end); }
+.box.wall { background-color: var(--wall); }
+.box.visited { background-color: var(--visited); }
+.box.path { background-color: var(--path); box-shadow: 0 0 10px var(--path); }
+
+.grid-container {
+    display: grid;
+    gap: 2px;
+    background-color: var(--grid-bg);
+    padding: 4px;
+    border-radius: 8px;
+    margin: 0 auto;
+    width: fit-content;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cell {
+    width: 25px;
+    height: 25px;
+    background-color: var(--bg-color);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cell.wall {
+    background-color: var(--wall);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cell.start { background-color: var(--start); }
+.cell.end { background-color: var(--end); }
+
+.cell.visited {
+    background-color: var(--visited);
+    animation: fadeIn 0.5s forwards;
+}
+
+.cell.path {
+    background-color: var(--path);
+    box-shadow: 0 0 10px var(--path);
+    animation: glow 1s infinite alternate;
+}
+
+@keyframes popIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 0.6; transform: scale(1); }
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px var(--path); }
+    to { box-shadow: 0 0 15px var(--path); }
+}
