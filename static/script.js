@@ -27,7 +27,7 @@ function initGrid() {
             cell.dataset.c = c;
 
             if (r === start.r && c === start.c) cell.classList.add('start');
-            else if (r === end.r && c === end.c) cell.classList.add('end');
+            if (r === end.r && c === end.c) cell.classList.add('end');
 
             cell.addEventListener('mousedown', () => {
                 isMouseDown = true;
@@ -39,7 +39,7 @@ function initGrid() {
             cell.addEventListener('mouseup', () => isMouseDown = false);
 
             gridContainer.appendChild(cell);
-            row.push(0); // 0: Empty, 1: Wall
+            row.push(0);
         }
         grid.push(row);
     }
@@ -61,8 +61,7 @@ function toggleWall(r, c, cell) {
 }
 
 function clearVisualization() {
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => {
+    document.querySelectorAll('.cell').forEach(cell => {
         cell.classList.remove('visited', 'path');
     });
 }
@@ -70,6 +69,7 @@ function clearVisualization() {
 function clearWalls() {
     if (isSolving) return;
     clearVisualization();
+
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
             if (grid[r][c] === 1) {
@@ -84,51 +84,52 @@ function clearWalls() {
 async function generateRandomMaze() {
     if (isSolving) return;
     clearWalls();
+
     generateBtn.disabled = true;
     generateBtn.textContent = 'Generating...';
 
     try {
-        const response = await fetch('/generate', {
+        const response = await fetch('/api/main?task=generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ rows, cols })
         });
+
         const data = await response.json();
 
-        // Update Grid
         grid = data.grid;
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
                 const cell = document.querySelector(`.cell[data-r='${r}'][data-c='${c}']`);
-                if (grid[r][c] === 1) {
-                    cell.classList.add('wall');
-                } else {
-                    cell.classList.remove('wall');
-                }
+                if (grid[r][c] === 1) cell.classList.add('wall');
+                else cell.classList.remove('wall');
             }
         }
-    } catch (error) {
-        console.error('Error generating maze:', error);
-        alert('Failed to generate maze.');
-    } finally {
-        generateBtn.disabled = false;
-        generateBtn.textContent = 'Generate Random Maze';
+
+    } catch (err) {
+        console.error(err);
+        alert("Failed to generate maze.");
     }
+
+    generateBtn.disabled = false;
+    generateBtn.textContent = 'Generate Random Maze';
 }
 
 async function solveMaze() {
     if (isSolving) return;
     isSolving = true;
     clearVisualization();
+
     solveBtn.disabled = true;
     solveBtn.textContent = 'Solving...';
 
     try {
-        const response = await fetch('/solve', {
+        const response = await fetch('/api/main?task=solve', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ grid, start, end })
         });
+
         const data = await response.json();
 
         if (data.error) {
@@ -143,31 +144,31 @@ async function solveMaze() {
             alert('No path found!');
         }
 
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to solve maze.');
-    } finally {
-        isSolving = false;
-        solveBtn.disabled = false;
-        solveBtn.textContent = 'Start BFS Visualization';
+    } catch (err) {
+        console.error(err);
+        alert("Failed to solve maze.");
     }
+
+    isSolving = false;
+    solveBtn.disabled = false;
+    solveBtn.textContent = 'Start BFS Visualization';
 }
 
 function animateSearch(visitedOrder) {
     return new Promise(resolve => {
         let i = 0;
+
         function step() {
-            if (i >= visitedOrder.length) {
-                resolve();
-                return;
-            }
+            if (i >= visitedOrder.length) return resolve();
+
             const [r, c] = visitedOrder[i];
-            if (!((r === start.r && c === start.c) || (r === end.r && c === end.c))) {
-                const cell = document.querySelector(`.cell[data-r='${r}'][data-c='${c}']`);
-                cell.classList.add('visited');
+            if (!(r === start.r && c === start.c) && !(r === end.r && c === end.c)) {
+                document.querySelector(`.cell[data-r='${r}'][data-c='${c}']`)
+                    .classList.add('visited');
             }
+
             i++;
-            requestAnimationFrame(step); // Fast animation
+            requestAnimationFrame(step);
         }
         step();
     });
@@ -176,18 +177,18 @@ function animateSearch(visitedOrder) {
 function animatePath(path) {
     return new Promise(resolve => {
         let i = 0;
+
         function step() {
-            if (i >= path.length) {
-                resolve();
-                return;
-            }
+            if (i >= path.length) return resolve();
+
             const [r, c] = path[i];
-            if (!((r === start.r && c === start.c) || (r === end.r && c === end.c))) {
-                const cell = document.querySelector(`.cell[data-r='${r}'][data-c='${c}']`);
-                cell.classList.add('path');
+            if (!(r === start.r && c === start.c) && !(r === end.r && c === end.c)) {
+                document.querySelector(`.cell[data-r='${r}'][data-c='${c}']`)
+                    .classList.add('path');
             }
+
             i++;
-            setTimeout(step, 50); // Slower animation for path
+            setTimeout(step, 50);
         }
         step();
     });
@@ -197,8 +198,7 @@ generateBtn.addEventListener('click', generateRandomMaze);
 clearWallsBtn.addEventListener('click', clearWalls);
 solveBtn.addEventListener('click', solveMaze);
 resetBtn.addEventListener('click', () => {
-    if (isSolving) return;
-    clearWalls();
+    if (!isSolving) clearWalls();
 });
 
 initGrid();
