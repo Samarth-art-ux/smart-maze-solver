@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -9,7 +10,9 @@ import random
 app = FastAPI()
 
 # Serve static files (Frontend)
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_DIR = os.path.join(BASE_DIR, "../frontend")
+app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="static")
 
 class Point(BaseModel):
     r: int
