@@ -89,7 +89,7 @@ async function generateRandomMaze() {
     generateBtn.textContent = 'Generating...';
 
     try {
-        const response = await fetch('/api/main?task=generate', {
+        const response = await fetch('/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ rows, cols })
@@ -124,7 +124,7 @@ async function solveMaze() {
     solveBtn.textContent = 'Solving...';
 
     try {
-        const response = await fetch('/api/main?task=solve', {
+        const response = await fetch('/solve', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ grid, start, end })
