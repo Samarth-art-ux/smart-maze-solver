@@ -1,20 +1,29 @@
 :root {
-    --bg-color: #0f121d; /* Deep dark blue background */
-    --grid-bg: #192132;  /* Slightly lighter for grid container */
-    --primary: #3b82f6;  /* Bright Blue for Primary Actions */
+    --bg-color: #0f121d;
+    /* Deep dark blue background */
+    --grid-bg: #192132;
+    /* Slightly lighter for grid container */
+    --primary: #3b82f6;
+    /* Bright Blue for Primary Actions */
     --secondary: #64748b;
-    --accent: #6366f1;   /* Purple-ish accent */
-    --danger: #ef4444;   /* Red for Reset */
+    --accent: #6366f1;
+    /* Purple-ish accent */
+    --danger: #ef4444;
+    /* Red for Reset */
     --text: #ffffff;
     --text-muted: #94a3b8;
-    
+
     /* Grid Colors */
     --cell-bg: #222b3d;
     --wall: #334155;
-    --visited: #0ea5e9; /* Sky blue */
-    --path: #eab308;    /* Golden/Yellow */
-    --start: #22c55e;   /* Green */
-    --end: #f43f5e;     /* Red/Pink */
+    --visited: #0ea5e9;
+    /* Sky blue */
+    --path: #eab308;
+    /* Golden/Yellow */
+    --start: #22c55e;
+    /* Green */
+    --end: #f43f5e;
+    /* Red/Pink */
 }
 
 * {
@@ -47,7 +56,8 @@ h1 {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: #60a5fa; /* Light Blue */
+    color: #60a5fa;
+    /* Light Blue */
     text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
 }
 
@@ -86,31 +96,34 @@ p {
 }
 
 /* Specific Button Styles to match Screenshot */
-.btn.secondary { 
-    background-color: #1e293b; 
-    color: #cbd5e1; 
-    border: 1px solid #334155; 
+.btn.secondary {
+    background-color: #1e293b;
+    color: #cbd5e1;
+    border: 1px solid #334155;
 }
+
 .btn.secondary:hover {
     border-color: #475569;
     color: white;
 }
 
-.btn.primary { 
-    background-color: #3b82f6; 
-    color: white; 
+.btn.primary {
+    background-color: #3b82f6;
+    color: white;
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
 }
+
 .btn.primary:hover {
     background-color: #2563eb;
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
 }
 
-.btn.danger { 
-    background-color: #ef4444; 
-    color: white; 
+.btn.danger {
+    background-color: #ef4444;
+    color: white;
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
 }
+
 .btn.danger:hover {
     background-color: #dc2626;
     box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
@@ -137,14 +150,32 @@ p {
     border-radius: 3px;
 }
 
-.box.start { background-color: var(--start);box-shadow: 0 0 8px var(--start); }
-.box.end { background-color: var(--end); box-shadow: 0 0 8px var(--end); }
-.box.wall { background-color: var(--wall); }
-.box.visited { background-color: var(--visited); }
-.box.path { background-color: var(--path); box-shadow: 0 0 8px var(--path); }
+.box.start {
+    background-color: var(--start);
+    box-shadow: 0 0 8px var(--start);
+}
+
+.box.end {
+    background-color: var(--end);
+    box-shadow: 0 0 8px var(--end);
+}
+
+.box.wall {
+    background-color: var(--wall);
+}
+
+.box.visited {
+    background-color: var(--visited);
+}
+
+.box.path {
+    background-color: var(--path);
+    box-shadow: 0 0 8px var(--path);
+}
 
 .grid-container {
-    display: grid; /* Grid template columns set by JS */
+    display: grid;
+    /* Grid template columns set by JS */
     gap: 2px;
     background-color: var(--grid-bg);
     padding: 8px;
@@ -174,14 +205,14 @@ p {
     animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.cell.start { 
-    background-color: var(--start); 
+.cell.start {
+    background-color: var(--start);
     box-shadow: 0 0 10px var(--start);
     z-index: 2;
 }
 
-.cell.end { 
-    background-color: var(--end); 
+.cell.end {
+    background-color: var(--end);
     box-shadow: 0 0 10px var(--end);
     z-index: 2;
 }
@@ -189,7 +220,8 @@ p {
 .cell.visited {
     background-color: var(--visited);
     animation: visitedAnim 0.5s forwards;
-    border-radius: 5px; /* Slight rounding for visited */
+    border-radius: 5px;
+    /* Slight rounding for visited */
 }
 
 .cell.path {
@@ -201,20 +233,29 @@ p {
 
 /* Animations */
 @keyframes popIn {
-    from { transform: scale(0); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes visitedAnim {
-    0% { 
+    0% {
         transform: scale(0.3);
         background-color: rgba(14, 165, 233, 0.3);
         border-radius: 100%;
     }
+
     50% {
         background-color: rgba(14, 165, 233, 0.7);
     }
-    100% { 
+
+    100% {
         transform: scale(1);
         background-color: var(--visited);
         border-radius: 3px;
@@ -222,6 +263,11 @@ p {
 }
 
 @keyframes glow {
-    from { box-shadow: 0 0 5px var(--path); }
-    to { box-shadow: 0 0 20px var(--path); }
+    from {
+        box-shadow: 0 0 5px var(--path);
+    }
+
+    to {
+        box-shadow: 0 0 20px var(--path);
+    }
 }
